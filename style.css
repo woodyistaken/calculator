@@ -1,0 +1,21 @@
+.display{
+    font-size:100px;
+    border:1px black solid;
+    height:200px;
+    padding:0px;
+    margin:0;
+}
+.container{
+    border:2px black solid;
+    display:flex;
+    flex-direction:column;
+    width:500px;
+}
+.digitContainer{
+    display:flex;
+    flex-wrap:wrap;
+}
+.buttons{
+    width:100px;
+    height:100px;
+}
