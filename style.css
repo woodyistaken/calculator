@@ -1,21 +1,84 @@
-.display{
-    font-size:100px;
-    border:1px black solid;
-    height:200px;
-    padding:0px;
-    margin:0;
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color: black;
 }
 .container{
-    border:2px black solid;
-    display:flex;
+    border:1px solid black;
+    display:inline-block;
     flex-direction:column;
-    width:500px;
+    padding:10px;
+    align-items:center;
+    text-align: center;
+    margin-top:35px;
 }
-.digitContainer{
+
+.textDisplay{
+    text-align:right;
+    color:white;
+    margin-bottom:20px;
+    width:auto;
+    overflow:hidden;
+}
+.history{
+    font-size:30px;
+    padding:0px;
+    margin:0px;
+    color:rgba(255, 255, 255, 0.829);
+    height:30px;
+    width:320px;
+    overflow:hidden;
+}
+.result{
+    width:320px;
+    font-size:50px;
+    padding:0px;
+    margin:0px;
+    margin-top:10px;
+    height:50px;
+    overflow:hidden;
+}
+#buttonContainer{
     display:flex;
     flex-wrap:wrap;
+    width:320px;
+    margin:0px;
 }
 .buttons{
-    width:100px;
-    height:100px;
+    width:60px;
+    height:60px;
+    margin:10px;
+    border-radius: 50px;
+    color:white;
+    font-size:35px;
+    background-color: rgb(44, 44, 44);
+    border: 0;
+}
+.buttons:hover{
+    background-color:rgb(68, 68, 68);
+}
+.special:hover{
+    background-color:rgb(117, 117, 117);
+}
+.side:hover{
+    background-color:rgb(255, 196, 86);
+}
+.buttons:active{
+    background-color:rgb(128, 128, 128);
+}
+.special:active{
+    background-color:rgb(167, 165, 165);
+}
+.side:active{
+    background-color:rgb(255, 231, 188);
+}
+.special{
+    background-color: rgb(88, 88, 88);
+}
+.side{
+    background-color: rgb(235, 168, 45);
+}
+.buttons.equals{
+    flex-grow:2;
 }

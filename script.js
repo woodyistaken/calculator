@@ -1,116 +1,188 @@
-function add(num1,num2){
-    return num1+num2;
+function add(a,b){
+    return a+b;
 }
-function minus(num1,num2){
-    return num1-num2;
+function substract(a,b){
+    return a-b;
 }
-function multiply(num1,num2){
-    return num1*num2;
+function multiply(a,b){
+    return a*b;
 }
-function divide(num1,num2){
-    return num1/num2;
+function divide(a,b){
+    return a/b;
+}
+function modulus(a,b){
+    return a%b;
 }
 function operate(operand1,operand2,operator){
+    let result=0;
     switch(operator){
         case "+":
-            return add(operand1,operand2);
+            result=add(operand1,operand2);
             break;
         case "-":
-            return minus(operand1,operand2);
+            result=substract(operand1,operand2);
             break;
         case "*":
-            return multiply(operand1,operand2);
+            result=multiply(operand1,operand2);
             break;
         case "/":
-            return divide(operand1,operand2);
+            result=divide(operand1,operand2);
+            break;
+        case "%":
+            result=modulus(operand1,operand2);
             break;
     }
+    return result;
 }
-function displayResult(result){
-    display.textContent=result;
-}
-function populateDisplay(output){
-    if(pushedEquals){
-        display.textContent="";
-        pushedEquals=false;
-    }
-    display.textContent+=output;
-}
-function clicked(event){
-    let input=event.target.textContent;
-    populateDisplay(input);
-    operand+=input;
-    pushedOperator=false;
-}
-function operatorClicked(event){
-    
-    if(pushedOperator){
-        calculate(event);
+function parseToArray(str){
+    if(str.length==0){
         return;
     }
-    pushedOperator=true;
-    operators.push(event.target.textContent);
-    operands.push(Number(operand));
-    operator="";
-    operand="";
-}
-function calculate(event){
-    
-    if(operand=="" || operators.length!=operands.length){
-        operators.pop();
-        pushedEquals=true;
+    if(["-","+","*","/","%"].includes(str[str.length-1])){
+        str=str.slice(0,str.length-1);
     }
-    console.log(operators)
-    console.log(operands)
-    operands.push(Number(operand));
-    for(let i=0; i<operators.length;i++){
-        if(["*","/"].includes(operators[i])){
-            let result=operate(operands[i],operands[i+1],operators[i])
-            operands.splice(i,2,result);
-            operators.splice(i,1);
-            i--;
+    let strArray=[];
+    let addStr="";
+    for(let i=0; i<str.length;i++){
+        switch(str.charAt(i)){
+            case "(":
+                addStr+=str[i+1];
+                i++;
+                break;
+            case ")":
+                break;
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+            case "%":
+                strArray.push(Number(addStr));
+                strArray.push(str.charAt(i));
+                addStr="";
+                break;
+            default:
+                addStr+=str.charAt(i);
         }
     }
-    for(let i=0; i<operators.length;i++){
-        let result=operate(operands[0],operands[1],operators[0]);
-        operands.splice(0,2,result);
-        operators.splice(0,1);
+    strArray.push(Number(addStr));
+    return strArray;
+}
+function calculate(){
+    let strArray=parseToArray(result.textContent);
+    while(strArray.length>1){
+        let res=operate(strArray[0],strArray[2],strArray[1]);
+        strArray.splice(0,3,res);
     }
-    displayResult(operands[0]);
-    pushedEquals=true;
-    operands=[];
-    operators=[]
-    operand="";
-    operator="";
+    history.textContent=result.textContent;
+    result.textContent=strArray[0];
+}
+function clear(){
+    result.textContent="";
+    history.textContent="";
+}
+function flipSign(){
+    let resultText=result.textContent;
+    if(resultText.length==0||["-","+","*","/","%"].includes(resultText[resultText.length-1])){
+        return;
+    }
+    let flipped=false;
+    if(resultText[resultText.length-1]==")"){
+        flipped=true;
+    }
+    for(let i=resultText.length-2;i>=0;i--){
+
+        switch(resultText.charAt(i)){
+            case "(":
+                resultText=resultText.slice(0,i)+resultText.slice(i+2,resultText.length-1)
+                result.textContent=resultText;
+                return;
+                break;
+            case "-":
+                if(!flipped){
+                    resultText=resultText.slice(0,i)+"+"+resultText.slice(i+1);
+                    result.textContent=resultText;
+                    return;
+                }
+                break;
+            case "+":
+            case "*":
+            case "/":
+            case "%":
+                if(!flipped){
+                    resultText=resultText.slice(0,i+1)+"(-"+resultText.slice(i+1)+")"
+                    result.textContent=resultText;
+                    return;
+                }
+                break;
+        }
+    }
+    
+    resultText="(-"+resultText+")";
+    result.textContent=resultText;
+}
+function addToDisplay(content){
+    if(content=="." && 
+            (
+                ["-","+","*","/","%"].includes(result.textContent[result.textContent.length-1])
+                ||result.textContent.length==0
+            )
+        ){
+        result.textContent+="0"
+    }
+    result.textContent+=content
+}
+function adjustDisables(content){
+    switch(content){
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+        case "%":
+            operators.forEach((e)=>e.disabled=true);
+            dot.disabled=false;
+            break;
+        case ".":
+            dot.disabled=true;
+        default:
+            operators.forEach((e)=>e.disabled=false);
+    }
+}
+function backspace(){
+    let resultText=result.textContent;
+    if(resultText[resultText.length-1]=="."){
+        dot.disabled=false;
+    }
+    resultText=resultText.slice(0,resultText.length-1)
+    adjustDisables(resultText[resultText.length-1]);
+    
+    result.textContent=resultText;
+}
+function buttonPressed(event){
+    switch(event.target.textContent){
+        case "C":
+            clear();
+            break;
+        case "+/-":
+            flipSign();
+            break;
+        case "=":
+            calculate();
+            break;
+        case "<":
+            backspace();
+            break;
+        default:
+            addToDisplay(event.target.textContent);
+            adjustDisables(event.target.textContent);
+    }
 }
 
-function clearFunc(){
-    operands=[];
-    operators=[]
-    operand="";
-    operator="";
-    pushedEquals=false;
-    displayResult("");
-}
-const display=document.querySelector(".display");
-const buttons=document.querySelectorAll(".digit");
-buttons.forEach((elem)=>elem.addEventListener("click",clicked));
-const operatorsDOM=document.querySelectorAll(".operator");
-operatorsDOM.forEach((elem)=>{
-    elem.addEventListener("click",(event)=>{
-        populateDisplay(event.target.textContent);
-        operatorClicked(event);
-    })
+const buttons=document.querySelectorAll(".buttons");
+const operators=document.querySelectorAll(".operators");
+operators.forEach((e)=>e.disabled=true);
+const dot=document.querySelector(".dot")
+buttons.forEach((element)=>{
+    element.addEventListener("click",buttonPressed);
 })
-const equal=document.querySelector(".equals");
-equal.addEventListener("click",calculate)
-
-const clear=document.querySelector(".clear");
-clear.addEventListener("click",(e)=>clearFunc())
-
-let operands=[];
-let operators=[];
-let operand="";
-let operator="";
-let pushedEquals=false;
-let pushedOperator=true;
+const history=document.querySelector(".history");
+const result=document.querySelector(".result");

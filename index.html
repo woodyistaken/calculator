@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <p class="display"></p>
-        <div class="digitContainer">
-            <button class="digit buttons">0</button>
-            <button class="digit buttons">1</button>
-            <button class="digit buttons">2</button>
-            <button class="digit buttons">3</button>
-            <button class="digit buttons">4</button>
-            <button class="digit buttons">5</button>
-            <button class="digit buttons">6</button>
-            <button class="digit buttons">7</button>
-            <button class="digit buttons">8</button>
-            <button class="digit buttons">9</button>
-            <button class="operator buttons">+</button>
-            <button class="operator buttons">-</button>
-            <button class="operator buttons">*</button>
-            <button class="operator buttons">/</button>
-            <button class="equals buttons">=</button>
-            <button class="clear buttons">C</button>
+    <head>
+        <meta charset="utf-8">
+        <title>Calculator</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="textDisplay">
+                <p class="history"></p>
+                <p class="result"></p>
+            </div>
+            <div id="buttonContainer">
+                <button class="buttons special ">&lt</button>
+                <button class="buttons special">+/-</button>
+                <button class="buttons special operators">%</button>
+                <button class="buttons side operators">/</button>
+                <button class="buttons">7</button>
+                <button class="buttons">8</button>
+                <button class="buttons">9</button>
+                <button class="buttons side operators">*</button>
+                <button class="buttons">4</button>
+                <button class="buttons">5</button>
+                <button class="buttons">6</button>
+                <button class="buttons side operators">-</button>
+                <button class="buttons">1</button>
+                <button class="buttons">2</button>
+                <button class="buttons">3</button>
+                <button class="buttons side operators">+</button>
+                <button class="buttons">C</button>
+                <button class="buttons">0</button>
+                <button class="buttons dot">.</button>
+                <button class="buttons equals side">=</button>
+            </div>
         </div>
-    </div>
-    <script src="script.js"></script>
-</body>
+        <script src="script.js"></script>
+    </body>
 </html>
