@@ -1,0 +1,55 @@
+body{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+}
+.container{
+    display:flex;
+    flex-direction: column;
+    width:400px;
+    height:600px;
+    justify-content: stretch;
+    align-items: stretch;
+    padding:10px;
+    background-color: grey;
+    border-radius:20px;
+
+}
+.text-display{
+    display:flex;
+    flex-direction: column;
+    background-color:lightgrey;
+    height:150px;
+    margin:10px;
+    border-radius:20px;
+    align-items:end;
+    justify-content: space-between;
+    padding:20px 20px;
+    overflow:hidden;
+}
+.lower-text{
+    font-size:50px;
+}
+.upper-text{
+    font-size:25px;
+    color:rgb(63, 63, 63)
+}
+
+.num-container{
+    display:flex;    
+}
+button{
+    width:75px;
+    height:75px;
+    flex:1;
+    margin:5px;
+    border-radius:10px;
+    font-size:25px;
+}
+.clear{
+    background-color:rgb(255, 121, 143);
+}
+.delete{
+    background-color: rgb(138, 179, 241);
+}
